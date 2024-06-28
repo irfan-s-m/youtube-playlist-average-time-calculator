@@ -31,14 +31,17 @@ const Home = () => {
         const duration = parseInt(singleVideoDuration[0]) * 3600 + parseInt(singleVideoDuration[1]) * 60 + parseInt(singleVideoDuration[2]);
         return duration;
     })
-    // totalSecondsDuration = 
-    totalDuration.reduce((accumulator, currentValue) => {
-        // console.log(item)
-        let totalSeconds = 0;
-        totalSeconds = accumulator + currentValue;
-        console.log(totalSeconds)
-    })
-    // console.log(totalSecondsDuration)
+    let totalSecondsDuration = 0;
+    for (const item of totalDuration) {
+        totalSecondsDuration = totalSecondsDuration + item;
+    }
+
+    const convertedDuration = (item) => {
+        const hours = item / 3600;
+        console.log(hours)
+    }
+
+    convertedDuration(totalSecondsDuration)
     return (
         <div>
 

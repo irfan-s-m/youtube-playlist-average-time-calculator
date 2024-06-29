@@ -52,7 +52,7 @@ const Home = () => {
         const remainingSeconds = totalTimeInSecond % 3600;
         const minute = parseInt(remainingSeconds / 60);
         const second = remainingSeconds % 60;
-        const totalTime = [hour, minute, second]
+        const { ...totalTime } = { hour, minute, second }
         return totalTime;
     }
     const totalTime = totalTimeCount(totalSecondsDuration)
@@ -64,11 +64,10 @@ const Home = () => {
         const averageTimeRemaining = averageTimeInSeconds % 3600;
         const averageMinute = parseInt(averageTimeRemaining / 60);
         const averageSecond = parseInt(averageTimeRemaining % 60);
-        const averageTime = [averageHour, averageMinute, averageSecond];
+        const { ...averageTime } = { averageHour, averageMinute, averageSecond };
         return averageTime;
     }
     const averageTime = averageTimeCount(totalSecondsDuration)
-    
     return (
         <div>
             <form onSubmit={handleSubmit} action="">
@@ -79,9 +78,16 @@ const Home = () => {
                     className="input input-bordered input-accent w-full max-w-xs" />
                 <button className="btn btn-success ml-2">Success</button>
             </form>
-            <div>
-                
-            </div>
+            {
+                string.length > 1 && <div>
+                    <div>
+                        Total time length of this playlist: {totalTime.hour} {totalTime.hour > 1 ? "Hours" : "Hour"} {totalTime.minute} {totalTime.minute > 1 ? "Minutes" : "Minute"} {totalTime.second} {totalTime.second > 1 ? "Seconds" : "Second"}
+                    </div>
+                    <div>
+                        Average time length of this playlist: {averageTime.averageHour} {averageTime.averageHour > 1 ? "Hours" : "Hour"} {averageTime.averageMinute} {averageTime.averageMinute > 1 ? "Minutes" : "Minute"} {averageTime.averageSecond} {averageTime.averageSecond > 1 ? "Seconds" : "Second"}
+                    </div>
+                </div>
+            }
         </div>
     )
 }

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-
 const Home = () => {
     const [playListdata, setPlayListData] = useState([]);
     const [videoInfo, setVideoInfo] = useState([]);
     useEffect(() => {
         fetch(
-            "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=PLC3y8-rFHvwjmgBr1327BA5bVXoQH-w5s&key=AIzaSyA0BCHh--FlKWEhB2jxIROI8ww5yQoLF6k")
+            "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=PLabRIaHOjE5lYnX2hQnMwLvOUuZSPvizT&key=AIzaSyA0BCHh--FlKWEhB2jxIROI8ww5yQoLF6k")
             .then(res => res.json())
             .then(data => setPlayListData(data.items));
     }, []);
@@ -36,12 +35,27 @@ const Home = () => {
         totalSecondsDuration = totalSecondsDuration + item;
     }
 
-    const convertedDuration = (item) => {
-        const hours = item / 3600;
-        console.log(hours)
+    const totalTimeCount = (totalTimeInSecond) => {
+        const hour = parseInt(totalTimeInSecond / 3600);
+        const remainingSeconds = totalTimeInSecond % 3600;
+        const minute = parseInt(remainingSeconds / 60);
+        const second = remainingSeconds % 60;
+        const totalTime = [hour, minute, second]
+        return totalTime;
+    }
+    totalTimeCount(totalSecondsDuration)
+
+    const averageTimeCount = (totalTimeInSecond) => {
+        const averageTimeInSeconds = totalTimeInSecond / videoInfo.length;
+        const averageHour = parseInt(averageTimeInSeconds / 3600);
+        const averageTimeRemaining = averageTimeInSeconds % 3600;
+        const averageMinute = parseInt(averageTimeRemaining / 60);
+        const averageSecond = parseInt(averageTimeRemaining % 60);
+        const averageTime = [averageHour, averageMinute, averageSecond];
+        return averageTime;
     }
 
-    convertedDuration(totalSecondsDuration)
+    averageTimeCount(totalSecondsDuration)
     return (
         <div>
 

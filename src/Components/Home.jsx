@@ -1,25 +1,32 @@
 import { useEffect, useState } from "react";
 const Home = () => {
-    const [formValue, setFormValue] = useState("")
     const [playListdata, setPlayListData] = useState([]);
     const [videoInfo, setVideoInfo] = useState([]);
+    const [string, setString] = useState('');
     const handleSubmit = (e) => {
         e.preventDefault();
-setFormValue(e.target.text.value)
+        const newFormValue = e.target.text.value;
+        const formIntoString = newFormValue.split('=');
+        if (formIntoString.length > 1) {
+            const finalString = formIntoString[1];
+            const str = finalString?.split('&');
+            setString(str[0]);
+        }
     }
     useEffect(() => {
-        fetch(
-            "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=PLabRIaHOjE5lYnX2hQnMwLvOUuZSPvizT&key=AIzaSyA0BCHh--FlKWEhB2jxIROI8ww5yQoLF6k")
-            .then(res => res.json())
-            .then(data => setPlayListData(data.items));
-    }, []);
+        if (string) {
+            fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${string}&key=AIzaSyA0BCHh--FlKWEhB2jxIROI8ww5yQoLF6k`)
+                .then(res => res.json())
+                .then(data => setPlayListData(data.items))
+        }
+    }, [string]);
 
     useEffect(() => {
         const videosInfo = playListdata.map(item => item.snippet.resourceId.videoId).join(',')
         fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videosInfo}&key=AIzaSyA0BCHh--FlKWEhB2jxIROI8ww5yQoLF6k`)
             .then(res => res.json())
             .then(data => setVideoInfo(data.items))
-    }, [])
+    }, [playListdata])
 
     const duration = videoInfo.map(item => {
         const durationValue = item.contentDetails.duration
@@ -48,7 +55,8 @@ setFormValue(e.target.text.value)
         const totalTime = [hour, minute, second]
         return totalTime;
     }
-    totalTimeCount(totalSecondsDuration)
+    const totalTime = totalTimeCount(totalSecondsDuration)
+
 
     const averageTimeCount = (totalTimeInSecond) => {
         const averageTimeInSeconds = totalTimeInSecond / videoInfo.length;
@@ -59,8 +67,8 @@ setFormValue(e.target.text.value)
         const averageTime = [averageHour, averageMinute, averageSecond];
         return averageTime;
     }
-
-    averageTimeCount(totalSecondsDuration)
+    const averageTime = averageTimeCount(totalSecondsDuration)
+    
     return (
         <div>
             <form onSubmit={handleSubmit} action="">
@@ -71,6 +79,9 @@ setFormValue(e.target.text.value)
                     className="input input-bordered input-accent w-full max-w-xs" />
                 <button className="btn btn-success ml-2">Success</button>
             </form>
+            <div>
+                
+            </div>
         </div>
     )
 }

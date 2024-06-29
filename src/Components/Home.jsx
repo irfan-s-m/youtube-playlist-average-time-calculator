@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 const Home = () => {
     const [playListdata, setPlayListData] = useState([]);
     const [videoInfo, setVideoInfo] = useState([]);
@@ -70,22 +71,27 @@ const Home = () => {
     const averageTime = averageTimeCount(totalSecondsDuration)
     return (
         <div>
-            <form onSubmit={handleSubmit} action="">
-                <input
-                    type="text"
-                    placeholder="Enter Youtube Playlist Link"
-                    name="text"
-                    className="input input-bordered input-accent w-full max-w-xs" />
-                <button className="btn btn-success ml-2">Success</button>
-            </form>
+            <div>
+
+            </div>
+            <div className="px-10 py-4">
+                <form onSubmit={handleSubmit} className="flex justify-center items-center">
+                    <input
+                        type="text"
+                        placeholder="Enter Youtube Playlist Link"
+                        name="text"
+                        className="input input-bordered input-accent w-5/6" />
+                    <button className="btn bg-emerald-700 ml-2 text-white lg:text-lg text-sm">Success</button>
+                </form>
+                <p className="text-left lg:px-12 px-2 lg:py-6 pt-4 pb-2 lg:text-xl text-xs text-emerald-500">Acceptable format: https://www.youtube.com/playlist?list=PLc9n7cqrwBCv5gTPA0UlwdgsdgreS0eO6 <br /> Otherwise It will not work.</p>
+
+            </div>
             {
-                string.length > 1 && <div>
-                    <div>
-                        Total time length of this playlist: {totalTime.hour} {totalTime.hour > 1 ? "Hours" : "Hour"} {totalTime.minute} {totalTime.minute > 1 ? "Minutes" : "Minute"} {totalTime.second} {totalTime.second > 1 ? "Seconds" : "Second"}
-                    </div>
-                    <div>
-                        Average time length of this playlist: {averageTime.averageHour} {averageTime.averageHour > 1 ? "Hours" : "Hour"} {averageTime.averageMinute} {averageTime.averageMinute > 1 ? "Minutes" : "Minute"} {averageTime.averageSecond} {averageTime.averageSecond > 1 ? "Seconds" : "Second"}
-                    </div>
+                string.length > 1 && <div className="text-center flex justify-center items-center flex-col text-emerald-600">
+                    <p className="lg:text-lg text-sm">Total time length of this playlist: {totalTime.hour} {totalTime.hour > 1 ? "Hours" : "Hour"} {totalTime.minute} {totalTime.minute > 1 ? "Minutes" : "Minute"} {totalTime.second} {totalTime.second > 1 ? "Seconds" : "Second"}</p>
+                    <p className="lg:text-lg text-sm mt-3 lg:mt-4 text-emerald-600">
+                        Average time length of each video: {averageTime.averageHour} {averageTime.averageHour > 1 ? "Hours" : "Hour"} {averageTime.averageMinute} {averageTime.averageMinute > 1 ? "Minutes" : "Minute"} {averageTime.averageSecond} {averageTime.averageSecond > 1 ? "Seconds" : "Second"}
+                    </p>
                 </div>
             }
         </div>
